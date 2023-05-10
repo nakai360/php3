@@ -46,7 +46,7 @@ SELECT * FROM countries WHERE name LIKE 'an%'
 -- 問12
 -- 全国の中から独立記念日が1990年より前または人口が10万人より多い国を全て抽出してください。
 SELECT * FROM countries
-WHERE (indep_year < 1990 OR population > 100000) AND surface_area >= 1000000;
+WHERE indep_year < 1990 OR population > 100000;
 
 
 -- 問13
@@ -157,10 +157,9 @@ WHERE cl.is_official = 'T';
 
 -- 問29
 -- 全ての有名人の名前と国名をテーブル結合せずに出力してください。
-SELECT cb.name, ct.name
-FROM celebrities AS cb
-LEFT JOIN countries AS ct
-ON cb.country_code = ct.code;
+SELECT  name, 
+  (SELECT name FROM countries WHERE code = celebrities.country_code) AS 国名
+FROM celebrities;
 
 -- 問30
 -- 最年長が50歳以上かつ最年少が30歳以下の国を表示させてください。
